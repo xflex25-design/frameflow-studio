@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function Logo() {
   return (
-    <Link to="/" className="flex items-center gap-3">
+    <Link to="/" className="flex items-center gap-3" aria-label="Ogra AI Home">
       <svg
         viewBox="0 0 48 48"
         className="h-11 w-11 text-foreground"

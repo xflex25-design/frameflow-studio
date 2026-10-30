@@ -124,6 +124,27 @@ function AuthPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-xl border border-input bg-background px-4 py-3 outline-none focus:border-primary"
             />
+            {mode === "signup" && (
+              <div className="flex items-start gap-3 py-2">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  required
+                  className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <label htmlFor="consent" className="text-xs text-muted-foreground leading-tight">
+                  I agree to the{" "}
+                  <Link to="/terms" className="text-primary underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link to="/privacy" className="text-primary underline">
+                    Privacy Policy
+                  </Link>
+                  .
+                </label>
+              </div>
+            )}
             <button
               disabled={busy}
               className="w-full rounded-full bg-primary py-3 text-lg font-semibold text-primary-foreground shadow-glow disabled:opacity-60"

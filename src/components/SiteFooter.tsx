@@ -55,8 +55,11 @@ export function SiteFooter() {
               Turn your ideas into cinematic AI movies and animated stories. Made for African
               storytellers and creators everywhere.
             </p>
-            <div className="mt-6 text-xs text-muted-foreground">
-              © {new Date().getFullYear()} OGRA AI. All rights reserved.
+            <div className="mt-6 text-xs text-muted-foreground space-y-1">
+              <p className="font-semibold text-foreground uppercase">Ogra AI Ltd.</p>
+              <p>123 Innovation Drive, Tech District</p>
+              <p>Nairobi, Kenya</p>
+              <p>© {new Date().getFullYear()} OGRA AI. All rights reserved.</p>
             </div>
           </div>
 
@@ -107,12 +110,24 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <span className="cursor-pointer transition hover:text-primary">Privacy Policy</span>
+                <Link to="/privacy" className="transition hover:text-primary">
+                  Privacy Policy
+                </Link>
               </li>
               <li>
-                <span className="cursor-pointer transition hover:text-primary">
+                <Link to="/terms" className="transition hover:text-primary">
                   Terms of Service
-                </span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/refund" className="transition hover:text-primary">
+                  Refund Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/cookies" className="transition hover:text-primary">
+                  Cookie Policy
+                </Link>
               </li>
             </ul>
           </div>

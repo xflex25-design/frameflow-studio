@@ -118,6 +118,8 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { CookieBanner } from "@/components/CookieBanner";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
@@ -134,6 +136,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <CookieBanner />
       <Toaster theme="dark" />
     </QueryClientProvider>
   );

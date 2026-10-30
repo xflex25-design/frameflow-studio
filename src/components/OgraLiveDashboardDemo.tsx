@@ -299,6 +299,8 @@ export function OgraLiveDashboardDemo() {
                 playsInline
                 loop
                 muted={isMuted}
+                title="AI generated video demo"
+                aria-label="AI generated video demo"
                 className="h-full w-full object-cover cursor-pointer"
                 onClick={togglePlay}
               />

@@ -116,6 +116,8 @@ function Index() {
               {[0, 33.33, 66.66, 100].map((x) => (
                 <div
                   key={x}
+                  role="img"
+                  aria-label="User avatar"
                   className="h-20 w-20 rounded-full border-2 border-foreground bg-no-repeat"
                   style={{
                     backgroundImage: `url(${avatars})`,
