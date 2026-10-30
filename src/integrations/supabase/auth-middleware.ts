@@ -37,12 +37,18 @@ export const requireSupabaseAuth = createMiddleware({ type: "function" }).server
     const SUPABASE_PUBLISHABLE_KEY = process.env["SUPABASE_PUBLISHABLE_KEY"];
 
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+      // During SSR, we don't want to crash the whole page just because Auth middleware is defined.
+      // We only throw if this is a function call that actually requires Auth.
+      if (typeof window === "undefined") {
+        console.warn("[Supabase] Missing environment variables. Auth middleware will skip processing.");
+        return next();
+      }
+      
       const missing = [
         ...(!SUPABASE_URL ? ["SUPABASE_URL"] : []),
         ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
       ];
-      const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Connect Supabase in Lovable Cloud.`;
-      console.error(`[Supabase] ${message}`);
+      const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please set these in your Vercel project settings.`;
       throw new Error(message);
     }
 
