@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "framework": "nitro",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/.output/server/index.mjs"
+    }
+  ]
+}

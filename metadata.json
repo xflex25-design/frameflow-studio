@@ -1,0 +1,6 @@
+{
+  "name": "Ogra AI",
+  "description": "Account-based image and text to video generator for African storytellers",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
