@@ -33,30 +33,10 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 
 export const requireSupabaseAuth = createMiddleware({ type: "function" }).server(
   async ({ next }) => {
-    const SUPABASE_URL = process.env["SUPABASE_URL"];
-    const SUPABASE_PUBLISHABLE_KEY = process.env["SUPABASE_PUBLISHABLE_KEY"];
-
-    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-      // During SSR, we don't want to crash the whole page just because Auth middleware is defined.
-      // We only throw if this is a function call that actually requires Auth.
-      if (typeof window === "undefined") {
-        console.warn("[Supabase] Missing environment variables. Auth middleware will skip processing.");
-        return (next as any)({
-          context: {
-            supabase: null as any,
-            userId: "",
-            claims: {} as any,
-          },
-        });
-      }
-      
-      const missing = [
-        ...(!SUPABASE_URL ? ["SUPABASE_URL"] : []),
-        ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
-      ];
-      const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please set these in your Vercel project settings.`;
-      throw new Error(message);
-    }
+    const DEFAULT_SUPABASE_URL = "https://waadsvqtaugrywguamtl.supabase.co";
+    const DEFAULT_SUPABASE_KEY = "sb_publishable_86n4G_3JeDLVNTrFIa9aEg_X1oJQak5";
+    const SUPABASE_URL = process.env["SUPABASE_URL"] || DEFAULT_SUPABASE_URL;
+    const SUPABASE_PUBLISHABLE_KEY = process.env["SUPABASE_PUBLISHABLE_KEY"] || DEFAULT_SUPABASE_KEY;
 
     const request = getRequest();
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Film, User, LogOut, Menu, X } from "lucide-react";
 import { SidebarNavigation } from "@/components/SidebarNavigation";
+import { supabase } from "@/integrations/supabase/client";
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,15 +38,27 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <SidebarNavigation />
         </div>
 
-        <div className="pt-6 border-t border-border mt-auto" onClick={() => setIsOpen(false)}>
-          <div className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-primary transition cursor-pointer">
+        <div className="pt-6 border-t border-border mt-auto">
+          <Link
+            to="/dashboard"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-primary transition cursor-pointer"
+          >
             <User className="h-5 w-5" />
             <span className="font-medium">Account</span>
-          </div>
-          <div className="flex items-center gap-3 px-4 py-3 text-red-500/80 hover:text-red-500 transition cursor-pointer">
+          </Link>
+          <button
+            type="button"
+            onClick={async () => {
+              setIsOpen(false);
+              await supabase.auth.signOut();
+              window.location.href = "/";
+            }}
+            className="flex w-full items-center gap-3 px-4 py-3 text-red-500/80 hover:text-red-500 transition cursor-pointer text-left"
+          >
             <LogOut className="h-5 w-5" />
             <span className="font-medium">Sign Out</span>
-          </div>
+          </button>
         </div>
       </aside>
 

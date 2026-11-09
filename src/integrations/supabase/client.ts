@@ -53,28 +53,21 @@ function createSupabaseFetch(supabaseUrl: string, supabaseKey: string): typeof f
     return fetch(input, { ...init, headers });
   };
 }
+const DEFAULT_SUPABASE_URL = "https://waadsvqtaugrywguamtl.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_86n4G_3JeDLVNTrFIa9aEg_X1oJQak5";
 
 function createSupabaseClient() {
-  // Use import.meta.env for client-side (Vite build-time replacement)
-  // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env["VITE_SUPABASE_URL"] || process.env["SUPABASE_URL"];
-  const SUPABASE_PUBLISHABLE_KEY =
-    import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] || process.env["SUPABASE_PUBLISHABLE_KEY"];
 
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ["SUPABASE_URL"] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please set these in your Vercel project settings.`;
-    console.warn(`[Supabase] ${message}`);
-    // Return a proxy that throws when used, instead of crashing initialization
-    return new Proxy({} as any, {
-      get() {
-        throw new Error(message);
-      },
-    });
-  }
+  // Use import.meta.env for client-side (Vite build-time replacement)
+  // Fall back to process.env for SSR, and finally to default project credentials
+  const SUPABASE_URL =
+    import.meta.env["VITE_SUPABASE_URL"] ||
+    process.env["SUPABASE_URL"] ||
+    DEFAULT_SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY =
+    import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
+    process.env["SUPABASE_PUBLISHABLE_KEY"] ||
+    DEFAULT_SUPABASE_KEY;
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {
