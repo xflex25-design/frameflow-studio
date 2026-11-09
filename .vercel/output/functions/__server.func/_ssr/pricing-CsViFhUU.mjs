@@ -1,8 +1,8 @@
 import { l as createServerFn } from "./createServerFn-BhqelEmK.mjs";
-import { t as requireSupabaseAuth } from "./auth-middleware-GqRLgEWZ.mjs";
+import { t as requireSupabaseAuth } from "./auth-middleware-B8Bq90Zz.mjs";
 import { n as objectType, r as stringType } from "../_libs/zod.mjs";
 import { t as createServerRpc } from "./createServerRpc-DSPYtqIT.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/pricing-CN1QI4Df.js
+//#region node_modules/.nitro/vite/services/ssr/assets/pricing-CsViFhUU.js
 var PRICING = {
 	subscriptions: {
 		free: {

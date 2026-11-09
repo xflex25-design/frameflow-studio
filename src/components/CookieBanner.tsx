@@ -11,6 +11,7 @@ export function CookieBanner() {
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, []);
 
   const acceptCookies = () => {

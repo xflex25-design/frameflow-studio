@@ -12,7 +12,7 @@ export const enhancePrompt = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     try {
       const res = await ai.models.generateContent({
-        model: "gemini-3.5-flash-lite",
+        model: "gemini-3.8-flash",
         contents: `Enhance the following user prompt for a cinematic AI video generation engine.
 Add detailed descriptors for:
 - Cinematic lighting

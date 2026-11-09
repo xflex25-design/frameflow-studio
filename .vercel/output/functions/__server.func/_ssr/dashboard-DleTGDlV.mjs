@@ -1,11 +1,11 @@
 import { t as useQuery } from "../_libs/tanstack__react-query.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { l as createServerFn } from "./createServerFn-BhqelEmK.mjs";
-import { t as requireSupabaseAuth } from "./auth-middleware-GqRLgEWZ.mjs";
-import { t as createSsrRpc } from "./createSsrRpc-Dh8dj9Wy.mjs";
+import { t as requireSupabaseAuth } from "./auth-middleware-B8Bq90Zz.mjs";
+import { t as createSsrRpc } from "./createSsrRpc-B8wpWlYi.mjs";
 import { n as objectType, r as stringType } from "../_libs/zod.mjs";
-import { a as listVideos, o as useServerFn, t as DashboardLayout } from "./DashboardLayout-aeBpmMtO.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/dashboard-CHWe-kkO.js
+import { a as listVideos, o as useServerFn, t as DashboardLayout } from "./DashboardLayout-BnPty0TI.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/dashboard-DleTGDlV.js
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var getSubscription = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(createSsrRpc("ec7fe4a8b2b9ff69ad2c3d59bb9e5d5d6bad4e50214747b74eaabd1b0f0df398"));
 createServerFn({ method: "POST" }).inputValidator((d) => objectType({ packageId: stringType() }).parse(d)).middleware([requireSupabaseAuth]).handler(createSsrRpc("34d05492e4615b9fdc4b76676803f4b9d476a6f4d7696fa5361827cb3ab122ea"));
@@ -110,7 +110,7 @@ function Dashboard() {
 			}, v.id, true, {
 				fileName: _jsxFileName,
 				lineNumber: 33,
-				columnNumber: 33
+				columnNumber: 40
 			}, this))
 		}, void 0, false, {
 			fileName: _jsxFileName,

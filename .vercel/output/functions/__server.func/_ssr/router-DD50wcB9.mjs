@@ -7,7 +7,7 @@ import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { n as X } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-DUpfXc0H.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-DD50wcB9.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var _jsxFileName$2 = "/app/applet/src/components/ui/sonner.tsx";
@@ -87,12 +87,12 @@ function CookieBanner() {
 				"aria-label": "Close",
 				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(X, { className: "h-5 w-5" }, void 0, false, {
 					fileName: _jsxFileName$1,
-					lineNumber: 36,
+					lineNumber: 37,
 					columnNumber: 11
 				}, this)
 			}, void 0, false, {
 				fileName: _jsxFileName$1,
-				lineNumber: 31,
+				lineNumber: 32,
 				columnNumber: 9
 			}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
 				className: "flex flex-col gap-6 md:flex-row md:items-center",
@@ -103,7 +103,7 @@ function CookieBanner() {
 						children: "Cookie Consent"
 					}, void 0, false, {
 						fileName: _jsxFileName$1,
-						lineNumber: 41,
+						lineNumber: 42,
 						columnNumber: 13
 					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
 						className: "mt-2 text-sm text-muted-foreground leading-relaxed",
@@ -116,7 +116,7 @@ function CookieBanner() {
 								children: "Cookie Policy"
 							}, void 0, false, {
 								fileName: _jsxFileName$1,
-								lineNumber: 44,
+								lineNumber: 45,
 								columnNumber: 15
 							}, this),
 							" ",
@@ -124,12 +124,12 @@ function CookieBanner() {
 						]
 					}, void 0, true, {
 						fileName: _jsxFileName$1,
-						lineNumber: 42,
+						lineNumber: 43,
 						columnNumber: 13
 					}, this)]
 				}, void 0, true, {
 					fileName: _jsxFileName$1,
-					lineNumber: 40,
+					lineNumber: 41,
 					columnNumber: 11
 				}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
 					className: "flex shrink-0 items-center gap-3",
@@ -139,7 +139,7 @@ function CookieBanner() {
 						children: "Decline"
 					}, void 0, false, {
 						fileName: _jsxFileName$1,
-						lineNumber: 52,
+						lineNumber: 53,
 						columnNumber: 13
 					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
 						onClick: acceptCookies,
@@ -147,27 +147,27 @@ function CookieBanner() {
 						children: "Accept All"
 					}, void 0, false, {
 						fileName: _jsxFileName$1,
-						lineNumber: 58,
+						lineNumber: 59,
 						columnNumber: 13
 					}, this)]
 				}, void 0, true, {
 					fileName: _jsxFileName$1,
-					lineNumber: 51,
+					lineNumber: 52,
 					columnNumber: 11
 				}, this)]
 			}, void 0, true, {
 				fileName: _jsxFileName$1,
-				lineNumber: 39,
+				lineNumber: 40,
 				columnNumber: 9
 			}, this)]
 		}, void 0, true, {
 			fileName: _jsxFileName$1,
-			lineNumber: 30,
+			lineNumber: 31,
 			columnNumber: 7
 		}, this)
 	}, void 0, false, {
 		fileName: _jsxFileName$1,
-		lineNumber: 29,
+		lineNumber: 30,
 		columnNumber: 5
 	}, this);
 }
@@ -407,7 +407,7 @@ function RootComponent() {
 		columnNumber: 5
 	}, this);
 }
-var $$splitComponentImporter$8 = () => import("./routes-DzMmzKfN.mjs");
+var $$splitComponentImporter$8 = () => import("./routes-CjvYSGY-.mjs");
 var Route$8 = createFileRoute("/")({
 	head: () => ({ meta: [
 		{ title: "Ogra AI — Turn your stories into AI movies" },
@@ -443,7 +443,7 @@ var Route$7 = createFileRoute("/_authenticated")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$7, "component")
 });
-var $$splitComponentImporter$6 = () => import("./auth-DtGYxCXc.mjs");
+var $$splitComponentImporter$6 = () => import("./auth-Cn7py0_G.mjs");
 var Route$6 = createFileRoute("/auth")({
 	head: () => ({ meta: [
 		{ title: "Sign in — Ogra AI" },
@@ -478,9 +478,9 @@ var $$splitComponentImporter$3 = () => import("./refund-nUjCbQM-.mjs");
 var Route$3 = createFileRoute("/refund")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
 var $$splitComponentImporter$2 = () => import("./terms-CJ8WhJ9S.mjs");
 var Route$2 = createFileRoute("/terms")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
-var $$splitComponentImporter$1 = () => import("./dashboard-CHWe-kkO.mjs");
+var $$splitComponentImporter$1 = () => import("./dashboard-DleTGDlV.mjs");
 var Route$1 = createFileRoute("/_authenticated/dashboard")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
-var $$splitComponentImporter = () => import("./studio-DdmXYpt7.mjs");
+var $$splitComponentImporter = () => import("./studio-C55l-eaO.mjs");
 var Route = createFileRoute("/_authenticated/studio")({
 	head: () => ({ meta: [
 		{ title: "Studio — Ogra AI" },

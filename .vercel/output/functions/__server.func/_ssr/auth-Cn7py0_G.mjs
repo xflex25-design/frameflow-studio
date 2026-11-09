@@ -1,13 +1,13 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { t as supabase } from "./client-CpCvZ7BY.mjs";
 import { c as require_react } from "../_libs/@radix-ui/react-accordion+[...].mjs";
-import { b as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
+import { b as useNavigate, y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
-import "./router-DUpfXc0H.mjs";
+import "./router-DD50wcB9.mjs";
 import { n as SiteHeader } from "./SiteHeader-IKpFeMmt.mjs";
 import { t as createLovableAuth } from "../_libs/lovable.dev__cloud-auth-js.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/auth-DtGYxCXc.js
+//#region node_modules/.nitro/vite/services/ssr/assets/auth-Cn7py0_G.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var lovableAuth = createLovableAuth();

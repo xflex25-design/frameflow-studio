@@ -4,9 +4,9 @@ import { r as useQueryClient, t as useQuery } from "../_libs/tanstack__react-que
 import { n as toast } from "../_libs/sonner.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { C as CircleAlert, S as CircleCheck, _ as Film, c as Sparkles, g as ImagePlus, h as LoaderCircle, n as X, o as Type, s as Trash2, v as Download } from "../_libs/lucide-react.mjs";
-import { a as listVideos, i as deleteVideo, n as checkVideo, o as useServerFn, r as createVideo, t as DashboardLayout } from "./DashboardLayout-aeBpmMtO.mjs";
+import { a as listVideos, i as deleteVideo, n as checkVideo, o as useServerFn, r as createVideo, t as DashboardLayout } from "./DashboardLayout-BnPty0TI.mjs";
 import { n as hero_scene_default, t as animated_thumb_default } from "./animated-thumb-CZ8fUfHo.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/studio-DdmXYpt7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/studio-C55l-eaO.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var _jsxFileName$2 = "/app/applet/src/components/GenerationStatus.tsx";
@@ -580,7 +580,7 @@ function Studio() {
 					}, v.id, true, {
 						fileName: _jsxFileName,
 						lineNumber: 184,
-						columnNumber: 37
+						columnNumber: 44
 					}, this))
 				}, void 0, false, {
 					fileName: _jsxFileName,

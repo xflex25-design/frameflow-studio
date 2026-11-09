@@ -4,11 +4,11 @@ import { W as isRedirect, x as useRouter, y as Link } from "../_libs/@tanstack/r
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { _ as Film, a as User, c as Sparkles, m as LogOut, n as X, p as Menu, u as Settings, y as CreditCard } from "../_libs/lucide-react.mjs";
 import { l as createServerFn } from "./createServerFn-BhqelEmK.mjs";
-import { t as requireSupabaseAuth } from "./auth-middleware-GqRLgEWZ.mjs";
-import { t as createSsrRpc } from "./createSsrRpc-Dh8dj9Wy.mjs";
+import { t as requireSupabaseAuth } from "./auth-middleware-B8Bq90Zz.mjs";
+import { t as createSsrRpc } from "./createSsrRpc-B8wpWlYi.mjs";
 import { n as objectType, r as stringType, t as enumType } from "../_libs/zod.mjs";
 import { t as GoogleGenAI } from "../_libs/@google/genai.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/DashboardLayout-aeBpmMtO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/DashboardLayout-BnPty0TI.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 function useServerFn(serverFn) {
@@ -28,7 +28,7 @@ function useServerFn(serverFn) {
 	}, [router, serverFn]);
 }
 new GoogleGenAI({
-	apiKey: process.env.GEMINI_API_KEY,
+	apiKey: process.env["GEMINI_API_KEY"] || "",
 	httpOptions: { headers: { "User-Agent": "aistudio-build" } }
 });
 var createSchema = objectType({

@@ -34,8 +34,8 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => data.user && navigate({ to: "/studio" }));
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => s && navigate({ to: "/studio" }));
+    supabase.auth.getUser().then(({ data }: any) => data.user && navigate({ to: "/studio" }));
+    const { data } = supabase.auth.onAuthStateChange((_e: any, s: any) => s && navigate({ to: "/studio" }));
     return () => data.subscription.unsubscribe();
   }, [navigate]);
 

@@ -18,7 +18,7 @@ export const PRICING = {
 
 export const getSubscription = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
+  .handler(async ({ context }: { context: any }) => {
     const { supabase, userId } = context;
     const { data, error } = await supabase
       .from("subscriptions")
@@ -33,7 +33,7 @@ export const getSubscription = createServerFn({ method: "GET" })
 export const purchaseCredits = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => z.object({ packageId: z.string() }).parse(d))
   .middleware([requireSupabaseAuth])
-  .handler(async ({ data, context }) => {
+  .handler(async ({ data, context }: { data: { packageId: string }; context: any }) => {
     const { supabase, userId } = context;
     const pkg = PRICING.creditPackages[data.packageId as keyof typeof PRICING.creditPackages];
     if (!pkg) throw new Error("Invalid package");

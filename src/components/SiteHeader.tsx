@@ -26,8 +26,8 @@ export function SiteHeader() {
   const [email, setEmail] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => setEmail(s?.user?.email ?? null));
+    supabase.auth.getUser().then(({ data }: any) => setEmail(data.user?.email ?? null));
+    const { data } = supabase.auth.onAuthStateChange((_e: any, s: any) => setEmail(s?.user?.email ?? null));
     return () => data.subscription.unsubscribe();
   }, []);
 

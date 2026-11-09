@@ -45,7 +45,7 @@ function Studio() {
 
   const videos = useQuery({ queryKey: ["videos"], queryFn: () => list() });
   const pending = (videos.data ?? []).filter(
-    (v) => v.status === "queued" || v.status === "in_progress",
+    (v: any) => v.status === "queued" || v.status === "in_progress",
   );
 
   // Poll pending jobs every 8s
@@ -68,7 +68,7 @@ function Studio() {
       if (changed) qc.invalidateQueries({ queryKey: ["videos"] });
     }, 8000);
     return () => clearInterval(t);
-  }, [pending.map((p) => p.id).join(","), check, qc]);
+  }, [pending.map((p: any) => p.id).join(","), check, qc]);
 
   function onFile(f: File | undefined): void {
     if (!f) return;
@@ -265,7 +265,7 @@ function Studio() {
             </p>
           ) : (
             <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {videos.data.map((v) => (
+              {videos.data.map((v: any) => (
                 <article
                   key={v.id}
                   className="overflow-hidden rounded-2xl border border-border bg-card"

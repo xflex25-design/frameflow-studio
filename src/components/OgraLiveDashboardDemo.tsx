@@ -279,7 +279,7 @@ export function OgraLiveDashboardDemo() {
                   />
                 </span>
                 <span className="font-bold tracking-wide text-foreground uppercase">
-                  {status === "script" && "Writing Script with Gemini…"}
+                  {status === "script" && "Writing Script with Gemini 3 Flash Preview…"}
                   {status === "scenes" && "Rendering ZeroGPU Frame Sequence…"}
                   {status === "assembling" && "Multiplexing Audio & Speech…"}
                   {status === "completed" && "Generation Ready (1080p)"}
@@ -310,7 +310,7 @@ export function OgraLiveDashboardDemo() {
                 <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/85 p-6 backdrop-blur-sm text-center">
                   <Loader2 className="h-10 w-10 animate-spin text-primary mb-3" />
                   <p className="text-sm font-bold text-foreground">
-                    {status === "script" && "Directing Scene 1 with Gemini 3.5…"}
+                    {status === "script" && "Directing Scene 1 with Gemini 3 Flash Preview…"}
                     {status === "scenes" && "Synthesizing 5s Video with LTX Engine…"}
                     {status === "assembling" && "Mastering 1080p HD Video Output…"}
                   </p>

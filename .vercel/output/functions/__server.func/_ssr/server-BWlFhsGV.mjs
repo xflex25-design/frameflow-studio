@@ -4,7 +4,7 @@ import { D as toCrossJSONAsync, F as waitForReason, H as isPromise, I as _getRen
 import { n as createServerHistory } from "../_libs/tanstack__history.mjs";
 import { a as mergeHeaders, i as defaultSerovalDeserializerPlugins, n as getNormalizedURL, o as makeSerovalPlugin, r as createRawStreamRPCPlugin, s as createSerializationAdapter, t as attachRouterServerSsrUtils } from "../_libs/@tanstack/router-core+[...].mjs";
 import { _ as safeObjectMerge, a as TSS_SERVER_FUNCTION, c as createNullProtoObject, f as getResponse, g as runWithStartContext, h as requestHandler, i as TSS_FORMDATA_CONTEXT, m as getStartOptions, n as MAX_FRAME_PAYLOAD_SIZE, o as X_TSS_RAW_RESPONSE, p as getStartContext, r as TSS_CONTENT_TYPE_FRAMED_VERSIONED, s as X_TSS_SERIALIZED, t as MAX_FRAMED_STREAMS, u as flattenMiddlewares } from "./createServerFn-BhqelEmK.mjs";
-import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-2lObEo28.mjs";
+import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-BpwcZjyy.mjs";
 import { n as csrfSymbol, t as createCsrfMiddleware } from "./createCsrfMiddleware-J6t9AYq7.mjs";
 require_react();
 var import_jsx_runtime = require_jsx_runtime();
@@ -28,7 +28,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DwGaLyMN.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-1HWlGQHy.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -1117,7 +1117,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-DUpfXc0H.mjs"),
+		import("./router-DD50wcB9.mjs"),
 		import("./start-C4Kez5b3.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

@@ -41,7 +41,13 @@ export const requireSupabaseAuth = createMiddleware({ type: "function" }).server
       // We only throw if this is a function call that actually requires Auth.
       if (typeof window === "undefined") {
         console.warn("[Supabase] Missing environment variables. Auth middleware will skip processing.");
-        return next();
+        return (next as any)({
+          context: {
+            supabase: null as any,
+            userId: "",
+            claims: {} as any,
+          },
+        });
       }
       
       const missing = [

@@ -34,7 +34,7 @@ function Dashboard() {
       <h2 className="text-xl font-bold mb-4">Recent Videos</h2>
       {videos.data && videos.data.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {videos.data.map((v) => (
+          {videos.data.map((v: any) => (
             <div
               key={v.id}
               className="bg-card p-4 rounded-xl border border-border hover:border-primary transition"

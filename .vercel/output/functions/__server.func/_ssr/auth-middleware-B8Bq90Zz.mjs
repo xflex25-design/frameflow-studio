@@ -1,7 +1,7 @@
 import { t as createClient } from "../_libs/supabase__supabase-js.mjs";
 import { d as getRequest } from "./createServerFn-BhqelEmK.mjs";
 import { t as createMiddleware } from "./createMiddleware-B_4t7rW1.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/auth-middleware-GqRLgEWZ.js
+//#region node_modules/.nitro/vite/services/ssr/assets/auth-middleware-B8Bq90Zz.js
 function isNewSupabaseApiKey(value) {
 	return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }
@@ -23,7 +23,11 @@ var requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({
 	if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
 		if (typeof window === "undefined") {
 			console.warn("[Supabase] Missing environment variables. Auth middleware will skip processing.");
-			return next();
+			return next({ context: {
+				supabase: null,
+				userId: "",
+				claims: {}
+			} });
 		}
 		const message = `Missing Supabase environment variable(s): ${[...!SUPABASE_URL ? ["SUPABASE_URL"] : [], ...!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []].join(", ")}. Please set these in your Vercel project settings.`;
 		throw new Error(message);

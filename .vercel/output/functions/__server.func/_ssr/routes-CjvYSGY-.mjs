@@ -8,7 +8,7 @@ import { t as SiteFooter } from "./SiteFooter-Bh5USV7e.mjs";
 import { n as hero_scene_default, t as animated_thumb_default } from "./animated-thumb-CZ8fUfHo.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DzMmzKfN.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-CjvYSGY-.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 function cn(...inputs) {
@@ -689,7 +689,7 @@ function OgraLiveDashboardDemo() {
 								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
 									className: "font-bold tracking-wide text-foreground uppercase",
 									children: [
-										status === "script" && "Writing Script with Gemini…",
+										status === "script" && "Writing Script with Gemini 3 Flash Preview…",
 										status === "scenes" && "Rendering ZeroGPU Frame Sequence…",
 										status === "assembling" && "Multiplexing Audio & Speech…",
 										status === "completed" && "Generation Ready (1080p)"
@@ -745,7 +745,7 @@ function OgraLiveDashboardDemo() {
 										/* @__PURE__ */ (void 0)("p", {
 											className: "text-sm font-bold text-foreground",
 											children: [
-												status === "script" && "Directing Scene 1 with Gemini 3.5…",
+												status === "script" && "Directing Scene 1 with Gemini 3 Flash Preview…",
 												status === "scenes" && "Synthesizing 5s Video with LTX Engine…",
 												status === "assembling" && "Mastering 1080p HD Video Output…"
 											]
