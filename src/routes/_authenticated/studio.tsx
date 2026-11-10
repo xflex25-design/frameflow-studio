@@ -3,11 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Sparkles, ImagePlus, Type, X, Loader2, Trash2, Download, Film } from "lucide-react";
-import { SiteHeader } from "@/components/SiteHeader";
+import { Sparkles, ImagePlus, Type, X, Loader2, Film, Wand2 } from "lucide-react";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { GenerationStatus } from "@/components/GenerationStatus";
-import { VideoPlayer } from "@/components/VideoPlayer";
+import { VideoDisplayCard, VideoItem } from "@/components/VideoDisplayCard";
+import { VideoGenerationSkeleton, VideoGridSkeleton } from "@/components/VideoSkeleton";
 import { createVideo, checkVideo, listVideos, deleteVideo } from "@/lib/video.functions";
 import hero from "@/assets/hero-scene.jpg";
 import animated from "@/assets/animated-thumb.jpg";
@@ -41,34 +40,75 @@ function Studio() {
   const [aspect, setAspect] = useState<"16:9" | "9:16">("16:9");
   const [image, setImage] = useState<Img | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [activePendingGen, setActivePendingGen] = useState<{
+    id: string;
+    prompt: string;
+    style: "realistic" | "animated";
+    aspect_ratio: "16:9" | "9:16";
+    stage: string;
+    progress: number;
+  } | null>(null);
+  const [newlyCompletedId, setNewlyCompletedId] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const outputSectionRef = useRef<HTMLElement>(null);
 
   const videos = useQuery({ queryKey: ["videos"], queryFn: () => list() });
-  const pending = (videos.data ?? []).filter(
+
+  const pendingVideos = (videos.data ?? []).filter(
     (v: any) => v.status === "queued" || v.status === "in_progress",
   );
 
-  // Poll pending jobs every 8s
+  // Poll pending jobs every 3.5s for fast, responsive live feedback
   useEffect(() => {
-    if (!pending.length) return;
-    const t = setInterval(async () => {
-      let changed = false;
-      for (const v of pending) {
+    const targetIds = [
+      ...pendingVideos.map((p: any) => p.id),
+      ...(activePendingGen?.id ? [activePendingGen.id] : []),
+    ];
+
+    if (!targetIds.length) return;
+
+    const interval = setInterval(async () => {
+      let shouldRefresh = false;
+      for (const id of targetIds) {
         try {
-          const r = await check({ data: { id: v.id } });
-          if (r.status === "completed" || r.status === "failed") {
-            changed = true;
-            if (r.status === "failed") toast.error(r.error ?? "Video failed");
-            else toast.success("Your video is ready!");
+          const res: any = await check({ data: { id } });
+          if (res) {
+            if (activePendingGen && activePendingGen.id === id) {
+              setActivePendingGen((prev) =>
+                prev
+                  ? {
+                      ...prev,
+                      stage: res.stage || prev.stage,
+                      progress: res.progress || prev.progress,
+                    }
+                  : null,
+              );
+            }
+
+            if (res.status === "completed" || res.status === "failed") {
+              shouldRefresh = true;
+              if (res.status === "completed") {
+                toast.success("Your 5-second AI video is ready!");
+                setNewlyCompletedId(id);
+                setActivePendingGen(null);
+              } else {
+                toast.error(res.error || "Generation could not be completed.");
+                setActivePendingGen(null);
+              }
+            }
           }
         } catch (e) {
-          console.error(e);
+          console.error("[Polling error]", e);
         }
       }
-      if (changed) qc.invalidateQueries({ queryKey: ["videos"] });
-    }, 8000);
-    return () => clearInterval(t);
-  }, [pending.map((p: any) => p.id).join(","), check, qc]);
+
+      if (shouldRefresh) {
+        qc.invalidateQueries({ queryKey: ["videos"] });
+      }
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [pendingVideos.map((p: any) => p.id).join(","), activePendingGen?.id, check, qc]);
 
   function onFile(f: File | undefined): void {
     if (!f) return;
@@ -101,42 +141,101 @@ function Studio() {
       toast.error("Upload an image to animate.");
       return;
     }
+
     setSubmitting(true);
+    const submittedPrompt = prompt.trim();
+    const submittedStyle = style;
+    const submittedAspect = aspect;
+
+    // Optimistically show skeleton screen immediately
+    const optimisticId = `gen-${Date.now()}`;
+    setActivePendingGen({
+      id: optimisticId,
+      prompt: submittedPrompt,
+      style: submittedStyle,
+      aspect_ratio: submittedAspect,
+      stage: "Enhancing prompt with AI…",
+      progress: 20,
+    });
+
+    // Smoothly scroll down to output section so user watches live generation
+    setTimeout(() => {
+      outputSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+
     try {
-      await create({
+      const res: any = await create({
         data: {
-          prompt,
-          style,
-          aspectRatio: aspect,
+          prompt: submittedPrompt,
+          style: submittedStyle,
+          aspectRatio: submittedAspect,
           image: mode === "image" && image ? { data: image.data, mimeType: image.mimeType } : null,
         },
       });
-      toast.success("Generating your 5-second video… this takes 1–3 minutes.");
+
+      if (res?.id) {
+        setActivePendingGen({
+          id: res.id,
+          prompt: submittedPrompt,
+          style: submittedStyle,
+          aspect_ratio: submittedAspect,
+          stage: "Rendering 5-second video frames…",
+          progress: 45,
+        });
+      }
+
+      toast.success("Generation started! Your video will appear below once ready.");
       qc.invalidateQueries({ queryKey: ["videos"] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start generation");
+      setActivePendingGen(null);
     } finally {
       setSubmitting(false);
     }
   }
 
+  const handleRemix = (v: VideoItem) => {
+    setPrompt(v.prompt);
+    setStyle(v.style);
+    setAspect(v.aspect_ratio);
+    if (v.mode) setMode(v.mode);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    toast.info("Prompt loaded into studio creator form.");
+  };
+
+  const handleDelete = async (id: string) => {
+    await remove({ data: { id } });
+    if (newlyCompletedId === id) setNewlyCompletedId(null);
+    qc.invalidateQueries({ queryKey: ["videos"] });
+  };
+
   return (
     <DashboardLayout>
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
-          Create a <span className="text-primary">5-second</span> movie.
-        </h1>
-        <p className="mt-2 text-lg text-sky">Describe a scene, or bring a photo to life.</p>
+      <div className="max-w-5xl mx-auto space-y-12">
+        {/* Page Title */}
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
+            Create a <span className="text-primary">5-second</span> movie.
+          </h1>
+          <p className="mt-2 text-lg text-sky">Describe a scene, or bring a photo to life.</p>
+        </div>
 
-        <section className="mt-8 rounded-[2rem] border-2 border-primary p-4 shadow-frame md:p-6">
-          <div className="grid gap-4 rounded-2xl border border-border bg-card/60 p-4 md:grid-cols-[1fr_200px]">
-            <div className="space-y-4">
-              <div className="inline-flex rounded-full bg-secondary p-1">
+        {/* Video Generation Studio Form */}
+        <section className="rounded-[2.5rem] border-2 border-primary p-5 shadow-frame md:p-8 bg-card/40 backdrop-blur-sm">
+          <div className="grid gap-6 rounded-2xl border border-border bg-card/80 p-5 md:grid-cols-[1fr_220px]">
+            <div className="space-y-5">
+              {/* Mode Switcher */}
+              <div className="inline-flex rounded-full bg-secondary/80 p-1 border border-border/60">
                 {(["text", "image"] as const).map((m) => (
                   <button
                     key={m}
+                    type="button"
                     onClick={() => setMode(m)}
-                    className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium ${mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+                    className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition ${
+                      mode === m
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     {m === "text" ? (
                       <Type className="h-4 w-4" />
@@ -148,18 +247,20 @@ function Studio() {
                 ))}
               </div>
 
+              {/* Optional Image Upload */}
               {mode === "image" && (
                 <div>
                   {image ? (
                     <div className="relative inline-block">
                       <img
                         src={image.preview}
-                        alt="Upload"
-                        className="h-40 rounded-xl object-cover"
+                        alt="Upload preview"
+                        className="h-44 rounded-xl object-cover border border-border"
                       />
                       <button
+                        type="button"
                         onClick={() => setImage(null)}
-                        className="absolute right-2 top-2 rounded-full bg-background/90 p-1"
+                        className="absolute right-2 top-2 rounded-full bg-background/90 p-1.5 shadow-md hover:bg-background transition"
                         aria-label="Remove image"
                       >
                         <X className="h-4 w-4" />
@@ -167,10 +268,13 @@ function Studio() {
                     </div>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => fileRef.current?.click()}
-                      className="flex h-40 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border text-muted-foreground hover:border-primary hover:text-foreground"
+                      className="flex h-44 w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-secondary/30 text-muted-foreground hover:border-primary hover:text-foreground transition"
                     >
-                      <ImagePlus className="h-8 w-8" /> Upload a starting image
+                      <ImagePlus className="h-8 w-8 text-primary" />
+                      <span className="font-medium text-sm">Upload a starting photo to animate</span>
+                      <span className="text-xs text-muted-foreground">PNG, JPG or WebP up to 6MB</span>
                     </button>
                   )}
                   <input
@@ -183,34 +287,49 @@ function Studio() {
                 </div>
               )}
 
-              <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                rows={4}
-                maxLength={2000}
-                placeholder={
-                  mode === "image"
-                    ? "How should it move? e.g. She turns to the camera and smiles as the sun sets…"
-                    : "A young woman in a red headwrap walks through a village at golden sunset, drums in the distance…"
-                }
-                className="w-full resize-none rounded-xl border border-input bg-background p-4 text-base outline-none focus:border-primary"
-              />
+              {/* Prompt Textarea */}
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  Scene Description & Motion Prompt
+                </label>
+                <textarea
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  rows={4}
+                  maxLength={2000}
+                  placeholder={
+                    mode === "image"
+                      ? "How should the photo move? e.g. She gently turns toward the camera, wind blowing through her hair at sunset…"
+                      : "A young African queen in a glowing emerald gown walks across the savannah at golden hour, cinematic lighting…"
+                  }
+                  className="w-full resize-none rounded-xl border border-input bg-background p-4 text-base outline-none focus:border-primary transition"
+                />
+              </div>
 
+              {/* Aspect Ratio Selector */}
               <div className="flex flex-wrap items-center gap-3">
-                <span className="text-sm text-muted-foreground">Format</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Aspect Ratio:
+                </span>
                 {(["16:9", "9:16"] as const).map((a) => (
                   <button
                     key={a}
+                    type="button"
                     onClick={() => setAspect(a)}
-                    className={`rounded-full border px-4 py-1.5 text-sm ${aspect === a ? "border-primary text-primary" : "border-border text-muted-foreground"}`}
+                    className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${
+                      aspect === a
+                        ? "border-primary bg-primary/10 text-primary shadow-sm"
+                        : "border-border text-muted-foreground hover:text-foreground"
+                    }`}
                   >
-                    {a === "16:9" ? "16:9 YouTube" : "9:16 TikTok/Reels"}
+                    {a === "16:9" ? "16:9 Landscape (YouTube / Web)" : "9:16 Portrait (TikTok / Reels)"}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-row gap-3 md:flex-col">
+            {/* Visual Style Selector */}
+            <div className="flex flex-row gap-3 md:flex-col justify-center">
               {(
                 [
                   ["realistic", "Realistic Movie", hero],
@@ -219,112 +338,125 @@ function Studio() {
               ).map(([k, label, img]) => (
                 <button
                   key={k}
+                  type="button"
                   onClick={() => setStyle(k)}
-                  className={`flex-1 rounded-xl border-2 p-2 text-left ${style === k ? "border-primary" : "border-border"}`}
+                  className={`group relative flex-1 rounded-2xl border-2 p-2.5 text-left transition ${
+                    style === k
+                      ? "border-primary bg-primary/5 shadow-sm"
+                      : "border-border/80 hover:border-primary/50"
+                  }`}
                 >
-                  <div className="relative">
-                    <img src={img} alt={label} className="h-20 w-full rounded-md object-cover" />
+                  <div className="relative overflow-hidden rounded-xl">
+                    <img
+                      src={img}
+                      alt={label}
+                      className="h-24 w-full object-cover transition duration-300 group-hover:scale-105"
+                    />
                     <span
-                      className={`absolute right-1 top-1 h-5 w-5 rounded-full border-2 border-foreground ${style === k ? "bg-primary" : ""}`}
+                      className={`absolute right-2 top-2 h-5 w-5 rounded-full border-2 border-white shadow-md transition ${
+                        style === k ? "bg-primary" : "bg-black/40"
+                      }`}
                     />
                   </div>
-                  <p className="mt-2 text-center text-sm font-medium">{label}</p>
+                  <p className="mt-2 text-center text-xs font-bold text-foreground">{label}</p>
                 </button>
               ))}
             </div>
           </div>
 
+          {/* Submit Button */}
           <button
+            type="button"
             onClick={generate}
-            disabled={submitting || pending.length > 0}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-4 text-lg font-semibold text-primary-foreground shadow-glow disabled:opacity-60"
+            disabled={submitting || !!activePendingGen}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-4 text-base font-bold text-primary-foreground shadow-glow hover:brightness-110 active:scale-[0.99] transition disabled:opacity-60"
           >
-            {submitting || pending.length > 0 ? (
+            {submitting || !!activePendingGen ? (
               <>
                 <Loader2 className="h-5 w-5 animate-spin" />
-                Processing...
+                <span>AI Video Generation in Progress…</span>
               </>
             ) : (
               <>
-                <Sparkles className="h-5 w-5" />
-                Generate Video
+                <Wand2 className="h-5 w-5" />
+                <span>Generate 5-Second Video (1 Credit)</span>
               </>
             )}
           </button>
         </section>
 
-        <section className="mt-12">
-          <h2 className="flex items-center gap-2 text-2xl font-bold">
-            <Film className="h-6 w-6 text-primary" /> My videos
-          </h2>
+        {/* Video Output & Gallery Section */}
+        <section ref={outputSectionRef} className="space-y-6 pt-4">
+          <div className="flex items-center justify-between border-b border-border/80 pb-4">
+            <div className="flex items-center gap-2.5">
+              <Film className="h-6 w-6 text-primary" />
+              <h2 className="text-2xl font-extrabold tracking-tight">Generated Videos</h2>
+            </div>
+            {videos.data && (
+              <span className="text-xs text-muted-foreground font-medium">
+                {videos.data.length} {videos.data.length === 1 ? "video" : "videos"} in studio
+              </span>
+            )}
+          </div>
+
+          {/* Active Generation Skeleton Screen Banner */}
+          {activePendingGen && (
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary animate-ping" />
+                Active Video Output in Generation
+              </h3>
+              <div className="max-w-xl">
+                <VideoGenerationSkeleton
+                  prompt={activePendingGen.prompt}
+                  aspectRatio={activePendingGen.aspect_ratio}
+                  style={activePendingGen.style}
+                  stage={activePendingGen.stage}
+                  progress={activePendingGen.progress}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Video List / Grid Display */}
           {videos.isLoading ? (
-            <p className="mt-4 text-muted-foreground">Loading…</p>
-          ) : !videos.data?.length ? (
-            <p className="mt-4 text-muted-foreground">
-              No videos yet — generate your first one above.
-            </p>
+            <VideoGridSkeleton count={3} />
+          ) : !videos.data?.length && !activePendingGen ? (
+            <div className="rounded-2xl border-2 border-dashed border-border/80 p-12 text-center bg-card/30">
+              <Film className="mx-auto h-12 w-12 text-muted-foreground/40 mb-3" />
+              <p className="text-base font-semibold text-foreground">No videos generated yet</p>
+              <p className="mt-1 text-sm text-muted-foreground max-w-sm mx-auto">
+                Type your creative scene in the prompt box above and hit Generate to see your first AI movie!
+              </p>
+            </div>
           ) : (
-            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {videos.data.map((v: any) => (
-                <article
-                  key={v.id}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
-                >
-                  <div
-                    className={`flex items-center justify-center bg-secondary ${v.aspect_ratio === "9:16" ? "aspect-[9/16]" : "aspect-video"}`}
-                  >
-                    {v.url ? (
-                      <VideoPlayer url={v.url} aspectRatio={v.aspect_ratio as "16:9" | "9:16"} />
-                    ) : (
-                      <div className="flex flex-col items-center gap-2 text-muted-foreground p-4">
-                        <GenerationStatus status={v.status} error={v.error} />
-                        {v.status === "failed" && (
-                          <button
-                            onClick={generate}
-                            className="mt-2 text-xs text-primary underline"
-                          >
-                            Retry
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-start gap-2 p-3">
-                    <p className="line-clamp-2 flex-1 text-sm">{v.prompt}</p>
-                    {v.url && (
-                      <a
-                        href={v.url}
-                        download
-                        className="p-1 text-muted-foreground hover:text-foreground"
-                        aria-label="Download"
-                      >
-                        <Download className="h-4 w-4" />
-                      </a>
-                    )}
-                    <button
-                      aria-label="Delete"
-                      className="p-1 text-muted-foreground hover:text-destructive"
-                      onClick={async () => {
-                        await remove({ data: { id: v.id } });
-                        qc.invalidateQueries({ queryKey: ["videos"] });
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <div className="flex gap-2 px-3 pb-3 text-xs text-muted-foreground">
-                    <span className="rounded-full bg-secondary px-2 py-0.5">
-                      {v.mode === "image" ? "Image" : "Text"}
-                    </span>
-                    <span className="rounded-full bg-secondary px-2 py-0.5">
-                      {v.style === "animated" ? "Animated" : "Realistic"}
-                    </span>
-                    <span className="rounded-full bg-secondary px-2 py-0.5">
-                      5s · {v.aspect_ratio}
-                    </span>
-                  </div>
-                </article>
-              ))}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Show any other pending videos from server as skeletons */}
+              {pendingVideos
+                .filter((pv: any) => pv.id !== activePendingGen?.id)
+                .map((pv: any) => (
+                  <VideoGenerationSkeleton
+                    key={pv.id}
+                    prompt={pv.prompt}
+                    aspectRatio={pv.aspect_ratio}
+                    style={pv.style}
+                    stage={pv.stage || "Rendering video frames…"}
+                    progress={pv.progress || 50}
+                  />
+                ))}
+
+              {/* Show completed videos using the rich VideoDisplayCard */}
+              {videos.data
+                ?.filter((v: any) => v.status === "completed" || (!v.status && v.url))
+                .map((v: any) => (
+                  <VideoDisplayCard
+                    key={v.id}
+                    video={v}
+                    onDelete={handleDelete}
+                    onRemix={handleRemix}
+                    priority={v.id === newlyCompletedId}
+                  />
+                ))}
             </div>
           )}
         </section>

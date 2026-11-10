@@ -1,4 +1,4 @@
-import { i as __require, o as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
+import { n as __require, r as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
 import { c as require_react, o as require_react_dom, s as require_jsx_runtime } from "../@radix-ui/react-accordion+[...].mjs";
 import { i as parseHref, r as normalizeProtocolRelative } from "../tanstack__history.mjs";
 import { PassThrough, Readable } from "node:stream";
@@ -4389,7 +4389,7 @@ var SPECIAL_REF_STRING = {
 * design, is not treated as a genuine Stream on re-serialization. Keep the two
 * implementations in sync.
 */
-var Stream$1 = class {
+var Stream = class {
 	constructor(live) {
 		this.buffer = [];
 		this.listeners = [];
@@ -4467,10 +4467,10 @@ var Stream$1 = class {
 	}
 };
 function isStream(value) {
-	return value instanceof Stream$1 || isLiveStream(value);
+	return value instanceof Stream || isLiveStream(value);
 }
 function createStream() {
-	return new Stream$1();
+	return new Stream();
 }
 var createAsyncIterable = /* @__PURE__ */ ASYNC_ITERATOR_CONSTRUCTOR(SYM_ASYNC_ITERATOR, PROMISE_CONSTRUCTOR);
 function streamToAsyncIterable(stream) {
@@ -5245,7 +5245,7 @@ function deserializeAsyncIteratorFactoryInstance(ctx, depth, node) {
 	return streamToAsyncIterable(source);
 }
 function deserializeStreamConstructor(ctx, depth, node) {
-	const result = assignIndexedValue$1(ctx, node.i, new Stream$1(node.l === 1 ? 1 : void 0));
+	const result = assignIndexedValue$1(ctx, node.i, new Stream(node.l === 1 ? 1 : void 0));
 	assignNodeType(ctx, node.i, 31);
 	ctx.base.pending?.add(node.i);
 	const items = node.a;
