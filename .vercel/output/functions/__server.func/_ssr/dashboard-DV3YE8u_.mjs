@@ -4,10 +4,10 @@ import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { M as Coins, T as Film, h as Plus, l as Sparkles, r as WandSparkles } from "../_libs/lucide-react.mjs";
 import { l as createServerFn } from "./createServerFn-BhqelEmK.mjs";
 import { t as requireSupabaseAuth } from "./auth-middleware-Ca2bkLew.mjs";
-import { t as createSsrRpc } from "./createSsrRpc-e0SQcXJh.mjs";
+import { t as createSsrRpc } from "./createSsrRpc-D7S8gpag.mjs";
 import { n as objectType, r as stringType } from "../_libs/zod.mjs";
-import { c as listVideos, i as VideoGridSkeleton, l as useServerFn, n as VideoDisplayCard, s as deleteVideo, t as DashboardLayout } from "./VideoSkeleton-DPCS0Ijj.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/dashboard-M1JLSHvp.js
+import { c as listVideos, i as VideoGridSkeleton, l as useServerFn, n as VideoDisplayCard, s as deleteVideo, t as DashboardLayout } from "./VideoSkeleton-Dartvupp.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/dashboard-DV3YE8u_.js
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var getSubscription = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(createSsrRpc("ec7fe4a8b2b9ff69ad2c3d59bb9e5d5d6bad4e50214747b74eaabd1b0f0df398"));
 createServerFn({ method: "POST" }).inputValidator((d) => objectType({ packageId: stringType() }).parse(d)).middleware([requireSupabaseAuth]).handler(createSsrRpc("34d05492e4615b9fdc4b76676803f4b9d476a6f4d7696fa5361827cb3ab122ea"));

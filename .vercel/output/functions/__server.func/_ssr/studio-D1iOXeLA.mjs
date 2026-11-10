@@ -4,9 +4,9 @@ import { r as useQueryClient, t as useQuery } from "../_libs/tanstack__react-que
 import { n as toast } from "../_libs/sonner.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { C as LoaderCircle, T as Film, n as X, r as WandSparkles, s as Type, w as ImagePlus } from "../_libs/lucide-react.mjs";
-import { a as checkVideo, c as listVideos, i as VideoGridSkeleton, l as useServerFn, n as VideoDisplayCard, o as createVideo, r as VideoGenerationSkeleton, s as deleteVideo, t as DashboardLayout } from "./VideoSkeleton-DPCS0Ijj.mjs";
+import { a as checkVideo, c as listVideos, i as VideoGridSkeleton, l as useServerFn, n as VideoDisplayCard, o as createVideo, r as VideoGenerationSkeleton, s as deleteVideo, t as DashboardLayout } from "./VideoSkeleton-Dartvupp.mjs";
 import { n as hero_scene_default, t as animated_thumb_default } from "./animated-thumb-CZ8fUfHo.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/studio-ihtPzLnG.js
+//#region node_modules/.nitro/vite/services/ssr/assets/studio-D1iOXeLA.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var _jsxFileName = "/app/applet/src/routes/_authenticated/studio.tsx?tsr-split=component";

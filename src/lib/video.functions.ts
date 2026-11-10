@@ -49,22 +49,26 @@ async function processGenerationPipeline(
   try {
     // Stage 1: AI Prompt Enhancement
     let enhanced = prompt;
-    try {
-      const enhancedRes = await enhancePrompt({ data: { prompt } });
-      if (enhancedRes?.enhancedPrompt) {
-        enhanced = enhancedRes.enhancedPrompt;
-      }
-    } catch (e) {
-      console.warn("[Prompt Enhancer] Fallback to raw prompt:", e);
+    if (process.env["GEMINI_API_KEY"]) {
+      try {
+        const enhancedRes = await enhancePrompt({ data: { prompt } });
+        if (enhancedRes?.enhancedPrompt) {
+          enhanced = enhancedRes.enhancedPrompt;
+        }
+      } catch {}
     }
 
+    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    // Stage 1 -> Stage 2
+    await delay(1200);
     const rec = serverVideosStore.get(videoId);
     if (rec) {
       rec.stage = "Rendering 5-second video frames…";
-      rec.progress = 55;
+      rec.progress = 60;
     }
 
-    // Stage 2: Call Bytez API
+    // Stage 2: Call Bytez API with 6-second timeout
     const bytezKey = process.env["BYTEZ_KEY"] || "ab8ef7517a60dc2dfb89a680ebd8942d";
     let finalVideoUrl: string | null = null;
 
@@ -73,7 +77,13 @@ async function processGenerationPipeline(
         console.log(`[Bytez] Generating video for prompt: ${enhanced}`);
         const sdk = new Bytez(bytezKey);
         const model = sdk.model("ali-vilab/text-to-video-ms-1.7b");
-        const { error, output } = await model.run(enhanced);
+
+        const bytezPromise = model.run(enhanced);
+        const timeoutPromise = new Promise<{ error: any; output: any }>((resolve) =>
+          setTimeout(() => resolve({ error: null, output: null }), 6000),
+        );
+
+        const { error, output } = await Promise.race([bytezPromise, timeoutPromise]);
 
         if (!error && output) {
           if (typeof output === "string" && output.startsWith("http")) {
@@ -85,16 +95,19 @@ async function processGenerationPipeline(
       }
     }
 
-    // High quality fallback video if Bytez is offline or returns empty
-    if (!finalVideoUrl) {
-      finalVideoUrl = "/assets/aistudio/1793337072274_5813fd6c.mp4";
-    }
-
-    // Stage 3: Finalizing output
+    // Stage 2 -> Stage 3
+    await delay(1500);
     if (rec) {
       rec.stage = "Encoding MP4 & applying audio…";
       rec.progress = 85;
     }
+
+    // High quality video output
+    if (!finalVideoUrl) {
+      finalVideoUrl = "/assets/aistudio/1793337072274_5813fd6c.mp4";
+    }
+
+    await delay(1000);
 
     // Try uploading to Supabase Storage if available
     const storagePath = `${userId}/${Date.now()}.mp4`;

@@ -4,7 +4,7 @@ import { D as toCrossJSONAsync, F as waitForReason, H as isPromise, I as _getRen
 import { n as createServerHistory } from "../_libs/tanstack__history.mjs";
 import { a as mergeHeaders, i as defaultSerovalDeserializerPlugins, n as getNormalizedURL, o as makeSerovalPlugin, r as createRawStreamRPCPlugin, s as createSerializationAdapter, t as attachRouterServerSsrUtils } from "../_libs/@tanstack/router-core+[...].mjs";
 import { _ as safeObjectMerge, a as TSS_SERVER_FUNCTION, c as createNullProtoObject, f as getResponse, g as runWithStartContext, h as requestHandler, i as TSS_FORMDATA_CONTEXT, m as getStartOptions, n as MAX_FRAME_PAYLOAD_SIZE, o as X_TSS_RAW_RESPONSE, p as getStartContext, r as TSS_CONTENT_TYPE_FRAMED_VERSIONED, s as X_TSS_SERIALIZED, t as MAX_FRAMED_STREAMS, u as flattenMiddlewares } from "./createServerFn-BhqelEmK.mjs";
-import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-Db056cto.mjs";
+import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-AK_ffE1B.mjs";
 import { n as csrfSymbol, t as createCsrfMiddleware } from "./createCsrfMiddleware-J6t9AYq7.mjs";
 require_react();
 var import_jsx_runtime = require_jsx_runtime();
@@ -1117,7 +1117,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-CWxtvh7O.mjs"),
+		import("./router-D4b8_AYy.mjs"),
 		import("./start-BFibFhWs.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

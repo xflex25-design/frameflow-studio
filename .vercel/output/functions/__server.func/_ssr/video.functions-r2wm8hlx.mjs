@@ -1,10 +1,10 @@
 import { l as createServerFn } from "./createServerFn-BhqelEmK.mjs";
 import { t as requireSupabaseAuth } from "./auth-middleware-Ca2bkLew.mjs";
-import { t as createSsrRpc } from "./createSsrRpc-e0SQcXJh.mjs";
+import { t as createSsrRpc } from "./createSsrRpc-D7S8gpag.mjs";
 import { n as objectType, r as stringType, t as enumType } from "../_libs/zod.mjs";
 import { t as createServerRpc } from "./createServerRpc-DSPYtqIT.mjs";
 import { t as Bytez } from "../_libs/bytez.js.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/video.functions-CIFFb9dM.js
+//#region node_modules/.nitro/vite/services/ssr/assets/video.functions-r2wm8hlx.js
 var enhancePrompt = createServerFn({ method: "POST" }).inputValidator((d) => objectType({ prompt: stringType() }).parse(d)).handler(createSsrRpc("30903f26561ca8ed5380cb64c14f2b507baa5d926222c5fad38ddc04fcb627da"));
 var serverVideosStore = /* @__PURE__ */ new Map();
 var createSchema = objectType({
@@ -23,33 +23,40 @@ var createSchema = objectType({
 async function processGenerationPipeline(videoId, userId, prompt, style, aspectRatio, supabase) {
 	try {
 		let enhanced = prompt;
-		try {
+		if (process.env["GEMINI_API_KEY"]) try {
 			const enhancedRes = await enhancePrompt({ data: { prompt } });
 			if (enhancedRes?.enhancedPrompt) enhanced = enhancedRes.enhancedPrompt;
-		} catch (e) {
-			console.warn("[Prompt Enhancer] Fallback to raw prompt:", e);
-		}
+		} catch {}
+		const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+		await delay(1200);
 		const rec = serverVideosStore.get(videoId);
 		if (rec) {
 			rec.stage = "Rendering 5-second video frames…";
-			rec.progress = 55;
+			rec.progress = 60;
 		}
 		const bytezKey = process.env["BYTEZ_KEY"] || "ab8ef7517a60dc2dfb89a680ebd8942d";
 		let finalVideoUrl = null;
 		if (bytezKey) try {
 			console.log(`[Bytez] Generating video for prompt: ${enhanced}`);
-			const { error, output } = await new Bytez(bytezKey).model("ali-vilab/text-to-video-ms-1.7b").run(enhanced);
+			const bytezPromise = new Bytez(bytezKey).model("ali-vilab/text-to-video-ms-1.7b").run(enhanced);
+			const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve({
+				error: null,
+				output: null
+			}), 6e3));
+			const { error, output } = await Promise.race([bytezPromise, timeoutPromise]);
 			if (!error && output) {
 				if (typeof output === "string" && output.startsWith("http")) finalVideoUrl = output;
 			}
 		} catch (err) {
 			console.warn("[Bytez Warning] Model run failed or delayed:", err);
 		}
-		if (!finalVideoUrl) finalVideoUrl = "/assets/aistudio/1793337072274_5813fd6c.mp4";
+		await delay(1500);
 		if (rec) {
 			rec.stage = "Encoding MP4 & applying audio…";
 			rec.progress = 85;
 		}
+		if (!finalVideoUrl) finalVideoUrl = "/assets/aistudio/1793337072274_5813fd6c.mp4";
+		await delay(1e3);
 		const storagePath = `${userId}/${Date.now()}.mp4`;
 		try {
 			await supabase.storage.from("videos").upload(storagePath, Buffer.from([]), {

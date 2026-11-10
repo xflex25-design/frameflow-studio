@@ -7,7 +7,7 @@ import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
 import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
 import { n as X } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-CWxtvh7O.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-D4b8_AYy.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_dev_runtime = require_jsx_dev_runtime();
 var _jsxFileName$2 = "/app/applet/src/components/ui/sonner.tsx";
@@ -452,7 +452,7 @@ var Route$7 = createFileRoute("/_authenticated")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$7, "component")
 });
-var $$splitComponentImporter$6 = () => import("./auth-NmSeXsGy.mjs");
+var $$splitComponentImporter$6 = () => import("./auth-CmZ5YDKD.mjs");
 var Route$6 = createFileRoute("/auth")({
 	head: () => ({ meta: [
 		{ title: "Sign in — Ogra AI" },
@@ -487,7 +487,7 @@ var $$splitComponentImporter$3 = () => import("./refund-BHyzUEYo.mjs");
 var Route$3 = createFileRoute("/refund")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
 var $$splitComponentImporter$2 = () => import("./terms-CfOBNXw8.mjs");
 var Route$2 = createFileRoute("/terms")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
-var $$splitComponentImporter$1 = () => import("./dashboard-M1JLSHvp.mjs");
+var $$splitComponentImporter$1 = () => import("./dashboard-DV3YE8u_.mjs");
 var Route$1 = createFileRoute("/_authenticated/dashboard")({
 	head: () => ({ meta: [{ title: "Dashboard — Ogra AI" }, {
 		name: "description",
@@ -495,7 +495,7 @@ var Route$1 = createFileRoute("/_authenticated/dashboard")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./studio-ihtPzLnG.mjs");
+var $$splitComponentImporter = () => import("./studio-D1iOXeLA.mjs");
 var Route = createFileRoute("/_authenticated/studio")({
 	head: () => ({ meta: [
 		{ title: "Studio — Ogra AI" },

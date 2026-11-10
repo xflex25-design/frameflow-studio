@@ -1,0 +1,111 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - complementary [ref=f7e3]:
+      - generic [ref=f7e4]: OGRA AI
+      - navigation [ref=f7e10]:
+        - link "Generation" [ref=f7e11] [cursor=pointer]:
+          - /url: /studio
+        - link "History" [ref=f7e16] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Subscription" [ref=f7e20] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Settings" [ref=f7e24] [cursor=pointer]:
+          - /url: /studio
+      - generic [ref=f7e29]:
+        - link "Account" [ref=f7e30] [cursor=pointer]:
+          - /url: /dashboard
+        - button "Sign Out" [ref=f7e35] [cursor=pointer]
+    - main [ref=f7e40]:
+      - generic [ref=f7e42]:
+        - generic [ref=f7e43]:
+          - heading "Create a 5-second movie." [level=1] [ref=f7e44]
+          - paragraph [ref=f7e45]: Describe a scene, or bring a photo to life.
+        - generic [ref=f7e46]:
+          - generic [ref=f7e47]:
+            - generic [ref=f7e48]:
+              - generic [ref=f7e49]:
+                - button "Text to Video" [ref=f7e50]
+                - button "Image to Video" [ref=f7e53]
+              - generic [ref=f7e58]:
+                - generic [ref=f7e59]: Scene Description & Motion Prompt
+                - textbox "A young African queen in a glowing emerald gown walks across the savannah at golden hour, cinematic lighting…" [ref=f7e60]: Golden eagle flying over Kilimanjaro in cinematic 8k
+              - generic [ref=f7e61]:
+                - generic [ref=f7e62]: "Aspect Ratio:"
+                - button "16:9 Landscape (YouTube / Web)" [ref=f7e63]
+                - button "9:16 Portrait (TikTok / Reels)" [ref=f7e64]
+            - generic [ref=f7e65]:
+              - button [ref=f7e66]:
+                - img "Realistic Movie" [ref=f7e68]
+                - paragraph [ref=f7e70]: Realistic Movie
+              - button [ref=f7e71]:
+                - img "Animated Story" [ref=f7e73]
+                - paragraph [ref=f7e75]: Animated Story
+          - button "AI Video Generation in Progress…" [disabled] [ref=f7e76]
+        - generic [ref=f7e80]:
+          - generic [ref=f7e81]:
+            - heading "Generated Videos" [level=2] [ref=f7e85]
+            - generic [ref=f7e86]: 2 videos in studio
+          - generic [ref=f7e87]:
+            - heading "Active Video Output in Generation" [level=3] [ref=f7e88]
+            - article "Generating video preview" [ref=f7e91]:
+              - generic [ref=f7e92]:
+                - generic [ref=f7e93]:
+                  - generic [ref=f7e101]: AI Rendering In Progress
+                  - paragraph [ref=f7e106]: Rendering 5-second video frames…
+                  - paragraph [ref=f7e107]:
+                    - generic [ref=f7e111]: Estimated ~15–30s remaining
+                  - generic [ref=f7e114]:
+                    - generic [ref=f7e115]: Enhance
+                    - generic [ref=f7e119]: →
+                    - generic [ref=f7e120]: Render
+                    - generic [ref=f7e123]: →
+                    - generic [ref=f7e124]: Encode
+                - generic:
+                  - generic: 16:9 YouTube
+                  - generic: realistic
+              - generic [ref=f7e125]:
+                - paragraph [ref=f7e126]: "\"Golden eagle flying over Kilimanjaro in cinematic 8k\""
+                - generic [ref=f7e127]: Processing cinematic frames…
+          - article [ref=f7e135]:
+            - generic [ref=f7e136]:
+              - generic [ref=f7e137] [cursor=pointer]
+              - generic:
+                - generic:
+                  - generic: 16:9 HD
+                  - generic: realistic
+              - button "Play video" [ref=f7e138]
+              - generic [ref=f7e142]:
+                - slider [ref=f7e143] [cursor=pointer]
+                - generic [ref=f7e144]:
+                  - generic [ref=f7e145]:
+                    - button "Play" [ref=f7e146]
+                    - button "Unmute" [ref=f7e149]
+                    - generic [ref=f7e154]: 0:00 / 0:01
+                  - generic [ref=f7e155]:
+                    - button "Theater view" [ref=f7e156]
+                    - button "Fullscreen" [ref=f7e161]
+            - generic [ref=f7e167]:
+              - paragraph [ref=f7e168]: A young woman in a red headwrap walks through an African village at golden sunset, drums in the distance…
+              - generic [ref=f7e169]:
+                - generic [ref=f7e170]: Text Prompt
+                - generic [aria-hidden] [ref=f7e171]: ·
+                - generic [ref=f7e172]: Cinematic
+                - generic [aria-hidden] [ref=f7e173]: ·
+                - generic [ref=f7e174]: 5s Clip
+                - generic [aria-hidden] [ref=f7e175]: ·
+                - generic [ref=f7e176]: 16:9
+              - generic [ref=f7e177]:
+                - generic [ref=f7e178]:
+                  - button "Copy prompt text" [ref=f7e179]:
+                    - generic [ref=f7e183]: Copy Prompt
+                  - button "Remix this video" [ref=f7e184]:
+                    - generic [ref=f7e188]: Remix
+                - generic [ref=f7e189]:
+                  - button "Copy video URL" [ref=f7e190]
+                  - button "Download video MP4" [ref=f7e197]:
+                    - generic [ref=f7e201]: Save
+                  - button "Delete video" [ref=f7e202]
+  - region "Notifications alt+T":
+    - list:
+      - listitem [ref=f7e206]:
+        - generic [ref=f7e210]: Generation started! Your video will appear below once ready.
